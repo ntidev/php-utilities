@@ -1,0 +1,49 @@
+# Dependencies
+/vendor/
+composer.phar
+
+# IDE and Editor files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Cache and logs
+/cache/
+/logs/
+*.log
+*.cache
+
+# Build and compiled files
+/build/
+/dist/
+*.compiled.*
+*.min.*
+
+# Testing
+/coverage/
+.phpunit.result.cache
+/tests/coverage/
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+
+# Application specific
+/public/storage
+/storage/*.key
+/storage/logs/*
+/storage/framework/cache/*
+/storage/framework/sessions/*
+/storage/framework/views/* 
