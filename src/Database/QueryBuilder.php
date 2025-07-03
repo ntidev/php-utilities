@@ -52,6 +52,14 @@ class QueryBuilder
         ];
     }
 
+    /*
+     * Filter and sort a query
+     *
+     * @param array $fields The fields to be filtered and sorted
+     * @param object $query The query object
+     * @param array $filters The filters to be applied
+     * @param array $sorts The sorts to be applied
+     */
     public static function filterAndSort(
         array $fields,
         object $query,
@@ -134,5 +142,50 @@ class QueryBuilder
             $query->addOrderBy('d.id', 'DESC');
         }
 
+    }
+
+
+    /**
+     * Handle pagination
+     *
+     * @param object $query The query object
+     * @param array $data The data array
+     * @return array Pagination parameters
+     */
+    public static function handlePagination(
+        object $query,
+        array $data
+    ): array {
+        
+        // Total records
+        $totalQb = clone $query;
+        $totalRecords = $totalQb->select('COUNT( DISTINCT '.$data['prefix'].'.id)')->getQuery()->getSingleScalarResult();
+
+        $currentPage = $data['page'];
+        $limit = $data['limit'];
+        
+        $query->setMaxResults($limit);
+        $query->setFirstResult($data['start']);
+
+        
+        
+        $totalPages = (int) ceil($totalRecords / $limit);
+        $hasNextPage = $currentPage < $totalPages;
+        $hasPreviousPage = $currentPage > 1;
+        $nextPage = $hasNextPage ? $currentPage + 1 : null;
+        $previousPage = $hasPreviousPage ? $currentPage - 1 : null;
+
+        return [
+            "totalRecords" => $totalRecords,
+            "page" => $currentPage,
+            "limit" => $limit,
+            "totalPages" => $totalPages,
+            "hasNextPage" => $hasNextPage,
+            "hasPreviousPage" => $hasPreviousPage,
+            "nextPage" => $nextPage,
+            "previousPage" => $previousPage,
+            "firstPage" => 1,
+            "lastPage" => $totalPages   
+        ];
     }
 } 
