@@ -159,7 +159,7 @@ class QueryBuilder
         
         // Total records
         $totalQb = clone $query;
-        $totalRecords = $totalQb->select('COUNT( DISTINCT '.$data['prefix'].'.id)')->getQuery()->getSingleScalarResult();
+        $totalRecords = $totalQb->resetDQLPart('orderBy')->select('COUNT( DISTINCT '.$data['prefix'].'.id)')->getQuery()->getSingleScalarResult();
 
         $currentPage = $data['page'];
         $limit = $data['limit'];
